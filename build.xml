@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="cms_resource" default="war" basedir=".">
+	<property name="build.dir" value="${basedir}/war"/>
+	<property name="release.dir" value="${build.dir}/blog"/>
+	<property name="lib.dir" value="${basedir}/WebContent/WEB-INF/lib"/>
+    	
+	<target name="init">
+		<echo>init...</echo>
+		<delete dir="${build.dir}"/>
+		<mkdir dir="${release.dir}"/>
+		<mkdir dir="${release.dir}/WEB-INF"/>
+		<mkdir dir="${release.dir}/WEB-INF/lib"/>
+		<mkdir dir="${release.dir}/WEB-INF/classes"/>
+	</target>
+	
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="copy" depends="init">
+		<echo>copy ...</echo>
+		<copy todir="${release.dir}/WEB-INF/classes/config" overwrite="yes">
+			<fileset dir="${basedir}/src/config">
+			    <include name="**/*.*"/>
+			    <exclude name="**/*.svn"/>
+			</fileset>
+		</copy>
+		<copy todir="${release.dir}" overwrite="yes">
+			<fileset dir="${basedir}/WebContent">
+				<include name="**/*.*"/>
+				<exclude name="**/*.svn"/>
+				<exclude name="**/servlet-api.jar"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="compile" depends="copy">
+		<echo>compile ...</echo>
+		<javac destdir="${release.dir}/WEB-INF/classes" encoding="UTF-8" debug="true" deprecation="off" nowarn="on" extdirs="true">
+			<src path="${basedir}/src"/>
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="war" depends="compile">
+		<echo>make war ...</echo>
+		<jar destfile="${build.dir}/blog.war" basedir="${release.dir}" />
+		<delete dir="${release.dir}"/>
+	</target>
+
+</project>
+
