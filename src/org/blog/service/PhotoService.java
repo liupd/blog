@@ -27,4 +27,6 @@ public interface PhotoService {
 	 * @param photoId
 	 */
 	void deletePhoto(String photoId);
+	
+	Photo selectOne(String _id);
 }

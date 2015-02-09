@@ -11,7 +11,7 @@
 				<iframe id="modalFrame" frameborder="0" src="" style="width:100%;height:100%;margin:0px;padding:0px;"></iframe>
 			</div>
 			<div class="modal-footer" style="padding:5px;margin:0px;">
-				<button type="button" class="btn btn-primary btn-sm" onclick="javascript:save();">保存</button>
+				<button type="button" class="btn btn-primary btn-sm" onclick="javascript:save();" id="modalDialogButton">保存</button>
 				<button type="button" class="btn btn-danger btn-sm" data-dismiss="modal">关闭</button>
 			</div>
 		</div>

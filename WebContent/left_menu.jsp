@@ -44,6 +44,7 @@
 	d.add('112','11','博客内容','blogList.htm','博客内容','main');
 	d.add('113','11','博客回复','commentList.htm','博客回复','main');
 	d.add('114','11','碎言碎语','doingList.htm','碎言碎语','main');
+	d.add('115','11','图库管理','photoList.htm','碎言碎语','main');
 	document.write(d);
 	</script>
 </div>

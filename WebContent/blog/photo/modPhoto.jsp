@@ -18,7 +18,7 @@
 				var periodName = $("#content").val();
 				if (periodName == '') {
 					alert("请输入内容");
-					$("#content").focus();
+					$("#classifyName").focus();
 					return false;
 				}
 				return true;
@@ -34,39 +34,35 @@
 			dataType : 'json'
 		});
 	}
-
-	function check() {
-		$("#modalLabel").text("选择图片");
-		$("#modalFrame").attr("src",
-				"photoListForCheck.htm?classifyId=54d7f424d4c68cbef82dbb72");
-		$("#modalDialog").modal("show");
-	}
+	$.get("classifList.do", null, function(data) {
+		if (data.success == true) {
+			var classifyList = data.classifyList;
+			var options = "<option value=''>--请选择--</option>";
+			for (var i = 0; i < classifyList.length; i++) {
+				options += "<option value='" + classifyList[i]._id + "'>"
+						+ classifyList[i].classifyName + "</option>";
+			}
+			$("#classifyId").html(options);
+			$("#classifyId").val('${photo.classifyId}');
+		}
+	}, "json");
 </script>
 </head>
 <body>
-	<form id="addForm" method="post" action="createDoing.do">
+	<form id="addForm" method="post" action="updatePhoto.do">
+		<input type="hidden" value="${photo.fileId}" name="fileId">
 		<table class="form-table"
 			style="margin: auto; width: 100%; height: 100%">
 			<tr>
-
-				<td align="right" class="alt" nowrap="nowrap"><font color="red">*</font>&nbsp;展示图:</td>
-				<td><input type="hidden" id="fileId" value="" name="fileId">
-					<button type="button" class="btn btn-primary btn-sm"
-						onclick="javascript:check();">
-						<span class="glyphicon glyphicon-plus"></span>&nbsp;选择展示图
-					</button></td>
+				<td align="right" class="alt" nowrap="nowrap"><font color="red"></font>&nbsp;缩略图:</td>
+				<td><img src="download.do?fileId=${photo.fileId}"></td>
 			</tr>
-
 			<tr>
-				<td align="right" class="alt" nowrap="nowrap"><font color="red">*</font>&nbsp;碎言碎语:</td>
-				<!-- <td><input type="text" class="form-control input-sm"
-					style="width: 400px;" id="content" name="content"
-					placeholder="请输入内容..."></td> -->
-				<td><textarea cols="40" rows="5" id="content" name="content"
-					placeholder="请输入内容..."></textarea></td>
+				<td align="right" class="alt" nowrap="nowrap"><font color="red">*</font>&nbsp;分类:</td>
+				<td><select name="classifyId" id="classifyId"
+					class="form-control input-sm" style="width: 160px;"></select></td>
 			</tr>
 		</table>
 	</form>
-		<jsp:include page="/blog/common/modalDialogToCheck.jsp" />
 </body>
 </html>

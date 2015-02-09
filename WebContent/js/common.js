@@ -1,5 +1,7 @@
 function doQuery() {
-	document.form1.submit();
+	if(document.getElementById("modalDialogButton") !=undefined){
+		document.form1.submit();
+	}
 }
 
 function save() {

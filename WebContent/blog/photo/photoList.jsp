@@ -9,14 +9,20 @@
 <%@ include file="/blog/common/cssjs.jsp"%>
 </head>
 <script type="text/javascript">
-	function add() {
+/* 	function add() {
 		$("#modalLabel").text("上传图片");
 		$("#modalFrame").attr("src", "addPhoto.htm");
 		$("#modalDialog").modal("show");
+	} */
+	
+	function add() {
+		$("#form1").attr("action", "addPhoto.htm");
+		$("#form1").submit();
 	}
+	
 	function mod(_id) {
 		$("#modalLabel").text("修改图片");
-		$("#modalFrame").attr("src", "addPhoto.htm?_id=" + _id);
+		$("#modalFrame").attr("src", "modPhoto.htm?_id="+_id);
 		$("#modalDialog").modal("show");
 	}
 	/** 批量删除 */
@@ -60,12 +66,16 @@
 						+ classifyList[i].classifyName + "</option>";
 			}
 			$("#classifyId").html(options);
-			$("#classifyId").val('${photo.classifyId}');
+			$("#classifyId").val('${classifyId}');
 		}
 	}, "json");
+	
+	function selectChange(){
+		var classifyId = $("#classifyId").val();
+		window.location.href = 'photoList.htm?classifyId='+classifyId;
+	}
 </script>
 <body>
-
 	<form id="form1" name="form1" action="photoList.htm" method="post">
 		<input type="hidden" name="returnUrl" value="photoList.htm" />
 		<div class="panel panel-primary" style="margin: 0px;">
@@ -77,7 +87,7 @@
 						<tr>
 							<td>分类：</td>
 							<td><select name="classifyId" id="classifyId"
-								class="form-control input-sm" style="width: 160px;"></select></td>
+								class="form-control input-sm" style="width: 160px;" onchange="selectChange()"></select></td>
 							<td>
 						</tr>
 					</table>

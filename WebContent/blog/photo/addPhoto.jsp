@@ -32,13 +32,17 @@
 			success : function(data, statusText) {
 				if (data.success) {
 					alert(data.message);
-					window.parent.closeModalDialog();
+					goback();
 				} else {
 					alert(data.message);
 				}
 			},
 			dataType : 'json'
 		});
+	}
+
+	function goback() {
+		$("#backForm").submit();
 	}
 
 	$.get("classifList.do", null, function(data) {
@@ -70,9 +74,19 @@
 				<td align="right" class="alt" nowrap="nowrap"><font color="red">*</font>&nbsp;分类:</td>
 				<td><select name="classifyId" id="classifyId"
 					class="form-control input-sm" style="width: 160px;"></select></td>
-				<td>
 			</tr>
 		</table>
 	</form>
+	<div class="panel-footer" style="text-align: center">
+		<button type="button" class="btn btn-primary btn-sm"
+			onclick="javascript:save();">
+			<span class="glyphicon glyphicon-saved"></span>&nbsp;保存
+		</button>
+		<button type="button" class="btn btn-success btn-sm"
+			onclick="javascript:goback();">
+			<span class="glyphicon glyphicon-backward"></span>&nbsp;返回
+		</button>
+	</div>
+	<form id="backForm" action="photoList.htm" method="post"></form>
 </body>
 </html>

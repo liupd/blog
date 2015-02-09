@@ -39,8 +39,8 @@ public class PhotoServiceImpl implements PhotoService {
 		Update update = new Update();
 		update.set("classifyId", photo.getClassifyId());
 		mongodbDao.updateMulti(
-				Query.query(Criteria.where("fileId").is(photo.getFileId())), update,
-				Photo.class);
+				Query.query(Criteria.where("fileId").is(photo.getFileId())),
+				update, Photo.class);
 	}
 
 	@Override
@@ -49,4 +49,9 @@ public class PhotoServiceImpl implements PhotoService {
 				Photo.class);
 	}
 
+	@Override
+	public Photo selectOne(String _id) {
+		return mongodbDao.findOne(Query.query(Criteria.where("_id").is(_id)),
+				Photo.class);
+	}
 }

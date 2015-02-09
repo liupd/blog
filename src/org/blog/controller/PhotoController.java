@@ -22,15 +22,16 @@ public class PhotoController {
 	PhotoService photoService;
 	@Resource
 	private ClassifyService classifyService;
+
 	@RequestMapping(value = "/photoList.htm")
 	public String photoManage(HttpServletRequest request,
 			Pagination pagination, String classifyId) throws Exception {
 		Photo photo = new Photo();
 		if (classifyId != null && !classifyId.isEmpty())
 			photo.setClassifyId(classifyId);
-		List<Classify> classifyList = classifyService.getClassifys(null,null);
-		Map<String ,String> classifyMap = new HashMap<String,String>();
-		for(Classify classify : classifyList){
+		List<Classify> classifyList = classifyService.getClassifys(null, null);
+		Map<String, String> classifyMap = new HashMap<String, String>();
+		for (Classify classify : classifyList) {
 			classifyMap.put(classify.get_id(), classify.getClassifyName());
 		}
 		request.setAttribute("classifyMap", classifyMap);
@@ -41,6 +42,25 @@ public class PhotoController {
 		return "blog/photo/photoList";
 	}
 
+	@RequestMapping(value = "/photoListForCheck.htm")
+	public String photoListForCheck(HttpServletRequest request,
+			Pagination pagination, String classifyId) throws Exception {
+		Photo photo = new Photo();
+		if (classifyId != null && !classifyId.isEmpty())
+			photo.setClassifyId(classifyId);
+		List<Classify> classifyList = classifyService.getClassifys(null, null);
+		Map<String, String> classifyMap = new HashMap<String, String>();
+		for (Classify classify : classifyList) {
+			classifyMap.put(classify.get_id(), classify.getClassifyName());
+		}
+		request.setAttribute("classifyMap", classifyMap);
+		List<Photo> photoList = photoService.getPhotos(photo, pagination);
+		request.setAttribute("photoList", photoList);
+		request.setAttribute("classifyId", classifyId);
+		request.setAttribute("pagination", pagination);
+		return "blog/photo/photoListForCheck";
+	}
+	
 	@RequestMapping(value = "/updatePhoto.do")
 	@ResponseBody
 	public Object updatePhoto(HttpServletRequest request, Photo photo)
@@ -54,6 +74,14 @@ public class PhotoController {
 		} catch (Exception ex) {
 			throw new Exception("修改失败！\n\r" + ex.getMessage(), ex);
 		}
+	}
+
+	@RequestMapping(value = "/modPhoto.htm")
+	public String modPhoto(HttpServletRequest request, String _id)
+			throws Exception {
+		Photo photo = photoService.selectOne(_id);
+		request.setAttribute("photo", photo);
+		return "blog/photo/modPhoto";
 	}
 
 	@RequestMapping(value = "/deletePhoto.do")
