@@ -1,1 +1,11 @@
-/build/
+*.class
+*.settings
+*.project
+*.classpath
+target
+.gitignore
+# Package Files #
+*.jar
+*.war
+*.ear
+/war
